@@ -36,6 +36,7 @@ vagrant up
 After Vagrant has started successfully:
 
 - adjust local SSH config
+
 ```
 #
 # Example for
@@ -62,6 +63,7 @@ Host default
  - `vagrant ssh` (only within this project directory where the Vagrantfile is located)
 
 - adjust local hosts file (`/etc/hosts`)
+
 ```
 #
 # Example for
@@ -74,6 +76,7 @@ sudo nano /etc/hosts
   192.168.100.11 zsce54
   ...
 ```
+
 - Connect to the Zend Server GUI with HTTP
  - `http://zsce54:10081` or
  - `https://zsce54:10082`
