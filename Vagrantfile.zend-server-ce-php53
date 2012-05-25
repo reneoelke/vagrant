@@ -1,31 +1,19 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
-#
-# Global config
-#
-
-$vm_host_name = "zsce53"
-$vm_ip_address = "192.168.100.11"
-
-#
-# Plugins
-#
-
-#
-# Main
-#
-
+# Vagrant File for Zend Server PHP 5.3
 Vagrant::Config.run do |config|
   config.vm.box = "lucid64"
   config.vm.box_url = "http://files.vagrantup.com/lucid64.box"
 
-  config.vm.host_name = "#{$vm_host_name}"
+  config.vm.host_name = "zsce53"
 
-  config.vm.network :hostonly, "#{$vm_ip_address}"
+  config.vm.network :hostonly, "192.168.100.11"
 
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = "cookbooks"
     chef.add_recipe "zend-server"
+    chef.json = {
+      'zend-server' => {
+			  'php_version' => "5.3",
+		  }
+	  }
   end
 end
