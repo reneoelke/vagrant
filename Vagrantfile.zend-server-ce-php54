@@ -1,0 +1,37 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+#
+# Global config
+#
+
+$vm_host_name = "zsce54"
+$vm_ip_address = "192.168.100.11"
+
+#
+# Plugins
+#
+
+#
+# Main
+#
+
+Vagrant::Config.run do |config|
+  config.vm.box = "lucid64"
+  config.vm.box_url = "http://files.vagrantup.com/lucid64.box"
+
+  config.vm.host_name = "#{$vm_host_name}"
+
+  config.vm.network :hostonly, "#{$vm_ip_address}"
+
+  config.vm.provision :chef_solo do |chef|
+    chef.cookbooks_path = "cookbooks"
+    chef.add_recipe "zend-server"
+    chef.json = {
+      'zend-server' => {
+        'php_version' => "5.4",
+        'repo_uri' => "http://repos.zend.com/zend-server/preview-php5.4/deb"
+      }
+    }
+  end
+end
