@@ -1,82 +1,80 @@
-# Description
+## Description
 
 Collection of Vagrant files and Chef cookbooks to install virtual machines for different purposes:
 
 - Zend Server Community Edition with PHP 5.3 (Vagrantfile.zend-server-ce-php53)
 - Zend Server Community Edition with PHP 5.4 (Vagrantfile.zend-server-ce-php54)
 
-# Requirements
+## Requirements
 
-- VirtualBox [https://www.virtualbox.org]
-- Vagrant [http://vagrantup.com]
+- [VirtualBox](https://www.virtualbox.org)
+- [Vagrant](http://vagrantup.com)
 
-# Installation
+## Installation
 
 There is no default Vagrantfile. It has to be created and if required to be configured.
 
-```
-#
-# Example for Zend Server Community Edition with PHP 5.4 (Vagrantfile.zend-server-ce-php54)
-#
+### Zend Server Community Edition PHP 5.4
 
-# Create a Vagrantfile by copy
-cp Vagrantfile.zend-server-ce-php54 Vagrantfile
+1. Create a Vagrantfile by copy  
+  
+	```shell
+	cp Vagrantfile.zend-server-ce-php54 Vagrantfile
+	```
+	
+1. Alter `Vagrantfile`	and change hostname and/or IP if needed:  
 
-# Edit Vagrantfile to config the host name ($vm_host_name) or ip address ($vm_ip_address)
-nano Vagrantfile
-  ...
-  $vm_host_name = "zsce54"
-  $vm_ip_address = "192.168.100.11"
-  ...
+	```ruby
+	config.vm.host_name = "myhostname"
+	config.vm.network :hostonly, "192.168.100.15"
+	```
+	
+1. Start Vagrant and install everything  
 
-# Start Vagrant
-vagrant up
-```
+	```shell
+	vagrant up
+	```
+	
+After this you can lean back and when it’s finished you can connect to your vagrant machine via `vagrant ssh` or open the browser and type in the IP.
 
-After Vagrant has started successfully:
+### Zend Server Community Edition PHP 5.3
 
-- adjust local SSH config
+1. Create a Vagrantfile by copy  
 
-```
-#
-# Example for
-# $vm_host_name = "zsce54"
-# $vm_ip_address = "192.168.100.11"
-#
+	```shell
+	cp Vagrantfile.zend-server-ce-php53 Vagrantfile
+	```
+	
+After this step you can continue with step 2 from above.
 
-nano ~/.ssh/config
-...
-Host default
-  HostName 192.168.100.11
-  Port 22
-  User vagrant
-  UserKnownHostsFile /dev/null
-  StrictHostKeyChecking no
-  PasswordAuthentication no
-  IdentityFile ~/.vagrant.d/insecure_private_key
-  IdentitiesOnly yes
-  ...
-```
+### Accessing the Zend Server GUI via HTTP
 
-- Connect to the VM with SSH
- - `ssh zsce54` (from everywhere within terminal) or
- - `vagrant ssh` (only within this project directory where the Vagrantfile is located)
+[http://192.168.100.15:10081](http://192.168.100.15:10081) or [http://192.168.100.15:10081](http://192.168.100.15:10081)
 
-- adjust local hosts file (`/etc/hosts`)
+### SSH-Config (optional)
 
-```
-#
-# Example for
-# $vm_host_name = "zsce54"
-# $vm_ip_address = "192.168.100.11"
-#
+The following step is optional but creates more comfort for the developer by adding the vagrant machine’s ip address to the ssh config you’re able to easily connect to it via `ssh myhostname`:
 
-sudo nano /etc/hosts
-  ...
-  192.168.100.11 zsce54
-  ...
-```
+	# ~/.ssh/config
+	# $vm_host_name = "myhostname"
+	# $vm_ip_address = "192.168.100.15"
+	
+	Host default
+	  HostName 192.168.100.11
+	  Port 22
+	  User vagrant
+	  UserKnownHostsFile /dev/null
+	  StrictHostKeyChecking no
+	  PasswordAuthentication no
+	  IdentityFile ~/.vagrant.d/insecure_private_key
+	  IdentitiesOnly yes
 
-- Connect to the Zend Server GUI with HTTP
- - `http://zsce54:10081` or
- - `https://zsce54:10082`
+### Host-Config
+
+For even more comfort during development you can alter your computer’s hostfile to know which ip belongs to your `myhostname` you just have to add the ip and hostname to it:
+
+	# /etc/hosts
+	192.168.100.15 myhostname
+	
+After that you can access the Zend Server GUI via HTTP with this simple URL:
+[http://myhostname:10081](http://myhostname:10081)
