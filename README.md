@@ -49,18 +49,21 @@ After this step you can continue with step 2 from above.
 
 ### Accessing the Zend Server GUI via HTTP
 
-[http://192.168.100.15:10081](http://192.168.100.15:10081) or [http://192.168.100.15:10081](http://192.168.100.15:10081)
+[http://192.168.100.15:10081](http://192.168.100.15:10081) or [https://192.168.100.15:10082](https://192.168.100.15:10082)
 
 ### SSH-Config (optional)
 
 The following step is optional but creates more comfort for the developer by adding the vagrant machine’s ip address to the ssh config you’re able to easily connect to it via `ssh myhostname`:
 
 	# ~/.ssh/config
-	# $vm_host_name = "myhostname"
-	# $vm_ip_address = "192.168.100.15"
+	# 
+	# Example (see Vagrantfile):
+	#
+	# config.vm.host_name = "myhostname"
+	# config.vm.network :hostonly, "192.168.100.15"
 	
-	Host default
-	  HostName 192.168.100.11
+	Host myhostname
+	  HostName 192.168.100.15
 	  Port 22
 	  User vagrant
 	  UserKnownHostsFile /dev/null
@@ -69,12 +72,18 @@ The following step is optional but creates more comfort for the developer by add
 	  IdentityFile ~/.vagrant.d/insecure_private_key
 	  IdentitiesOnly yes
 
-### Host-Config
+### Host-Config (optional)
 
 For even more comfort during development you can alter your computer’s hostfile to know which ip belongs to your `myhostname` you just have to add the ip and hostname to it:
 
 	# /etc/hosts
+	# 
+	# Example (see Vagrantfile):
+	#
+	# config.vm.host_name = "myhostname"
+	# config.vm.network :hostonly, "192.168.100.15"
+	
 	192.168.100.15 myhostname
 	
 After that you can access the Zend Server GUI via HTTP with this simple URL:
-[http://myhostname:10081](http://myhostname:10081)
+[http://myhostname:10081](http://myhostname:10081) or [https://myhostname:10082](https://myhostname:10082)
